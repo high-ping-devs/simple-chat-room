@@ -40,7 +40,7 @@ const SignupForm = () => {
         id="button"
         name="button"
         type="submit"
-        className="w-full h-16 rounded-[4px] bg-indigo-600 text-neutral-50 font-bold"
+        className="w-full h-16 rounded-[4px] bg-indigo-600 text-neutral-50 font-bold hover:bg-indigo-800 transition duration-200"
       >
         Entrar
       </button>
