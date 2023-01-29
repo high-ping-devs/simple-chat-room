@@ -1,3 +1,4 @@
+import { toaster } from "@/utils/toaster";
 import { useFormik } from "formik";
 
 const SignupForm = () => {
@@ -8,8 +9,8 @@ const SignupForm = () => {
       email: "",
       password: "",
     },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: () => {
+      toaster("Sucesso", 'success')
     },
   });
   return (
