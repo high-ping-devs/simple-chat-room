@@ -1,14 +1,49 @@
 services:
-
   database:
-    image: "postgres"
+    image: postgres
+    container_name: postgres
     restart: always
     env_file:
-      - .env
+      - .env.docker
     ports:
-      - "5432:5432"
+      - ${DB_PORT}:5432
     volumes:
       - "postgres-data:/var/lib/postgresql/data"
 
+  redis:
+    image: redis
+    container_name: redis-session-storage
+    restart: always
+    ports:
+      - ${REDIS_PORT}:6379
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASS}
+    volumes:
+      - redis:/data
+
+  backend:
+    container_name: backend
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env.docker
+    ports:
+      - ${BACKEND_PORT}:8080
+    links:
+      - "database:db"
+
+  frontend:
+    container_name: frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env.docker
+    ports:
+      - ${FRONTEND_PORT}:3000
+
 volumes:
   postgres-data:
+  redis:
