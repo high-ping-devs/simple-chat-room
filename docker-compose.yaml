@@ -12,7 +12,7 @@ services:
 
   redis:
     image: redis
-    container_name: redis-session-storage
+    container_name: redis
     restart: always
     ports:
       - ${REDIS_PORT}:6379

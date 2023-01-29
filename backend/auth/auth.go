@@ -2,11 +2,13 @@ package auth
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var (
@@ -63,4 +65,61 @@ func IsTokenExpiring(token *jwt.Token, minutesLeft int) bool {
 	expirationTime := claims["exp"]
 
 	return time.Until(time.Unix(int64(expirationTime.(float64)), 0)).Minutes() <= float64(minutesLeft)
+}
+
+// GrantPermission grants a permission to a token.
+func GrantPermission(token *jwt.Token, permission string) {
+	if !HasPermission(token, permission) {
+		claims := GetTokenClaims(token)
+		claims["permissions"] = append(claims["permissions"].([]string), permission)
+	}
+}
+
+// RevokePermission revokes a permission from a token.
+func RevokePermission(token *jwt.Token, permission string) {
+	if HasPermission(token, permission) {
+		claims := GetTokenClaims(token)
+		permissions := claims["permissions"].([]string)
+
+		for i, p := range permissions {
+			if p == permission {
+				permissions = append(permissions[:i], permissions[i+1:]...)
+				break
+			}
+		}
+
+		claims["permissions"] = permissions
+	}
+}
+
+// HasPermission returns true if the token has the permission.
+func HasPermission(token *jwt.Token, permission string) bool {
+	claims := GetTokenClaims(token)
+	permissions := claims["permissions"].([]string)
+
+	for _, p := range permissions {
+		if p == permission {
+			return true
+		}
+	}
+
+	return false
+}
+
+// HashAndSaltPassword hashes and salts a password.
+//
+// It returns the hash in string format.
+func HashAndSaltPassword(password string) string {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), 25)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	return string(hash)
+}
+
+// PasswordMatch returns true if the password matches the hash.
+func PasswordMatch(password string, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }
