@@ -32,6 +32,9 @@ services:
       - ${BACKEND_PORT}:8080
     links:
       - "database:db"
+    depends_on:
+      - database
+      - redis
 
   frontend:
     container_name: frontend
@@ -43,6 +46,8 @@ services:
       - .env.docker
     ports:
       - ${FRONTEND_PORT}:3000
+    depends_on:
+      - backend
 
 volumes:
   postgres-data:
