@@ -1,21 +1,21 @@
+import RegisterInput from "@/components/RegisterInputs";
 import Link from "next/link";
-import LoginInputs from "../components/LoginInputs";
 
-export default function Login() {
+export default function cadastro() {
   return (
     <div className="flex justify-center items-center w-screen h-screen bg-neutral-900">
       <div className="w-[408px] flex-row items-center px-4">
         <div className="flex flex-col gap-2 mb-6">
-          <h1 className="font-bold text-neutral-50 text-2xl">Entrar</h1>
+          <h1 className="font-bold text-neutral-50 text-2xl">Criar conta</h1>
           <p className="text-neutral-300 text-base">
-            Para acessar o chat, entre com sua conta
+            Crie uma conta para acessar o chat
           </p>
         </div>
-        <LoginInputs />
+        <RegisterInput></RegisterInput>
         <div className="w-full flex justify-center text-neutral-300 text-sm pt-4">
-          <p>Não possui uma conta?</p>
-          <Link href="/register" className="underline decoration-solid pl-1">
-            Criar conta
+          <p>Já possui uma conta?</p>
+          <Link href="/" className="underline decoration-solid pl-1">
+            Entrar agora
           </Link>
         </div>
       </div>

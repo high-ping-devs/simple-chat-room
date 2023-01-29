@@ -7,6 +7,7 @@ const SignupForm = () => {
     initialValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
@@ -34,6 +35,16 @@ const SignupForm = () => {
           value={formik.values.password}
           className="mb-4 w-full bg-neutral-800 h-16 rounded-[4px] text-neutral-300 text-base pl-4 placeholder:text-neutral-300 placeholder:text-base"
         />
+
+        <input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          placeholder="Confirmar senha"
+          onChange={formik.handleChange}
+          value={formik.values.confirmPassword}
+          className="mb-4 w-full bg-neutral-800 h-16 rounded-[4px] text-neutral-300 text-base pl-4 placeholder:text-neutral-300 placeholder:text-base"
+        />
       </form>
 
       <button
@@ -42,12 +53,12 @@ const SignupForm = () => {
         type="submit"
         className="w-full h-16 rounded-[4px] bg-indigo-600 text-neutral-50 font-bold hover:bg-indigo-800 transition duration-200"
       >
-        Entrar
+        Criar conta
       </button>
     </div>
   );
 };
 
-export default function EmailInput() {
+export default function CadastroInput() {
   return SignupForm();
 }
