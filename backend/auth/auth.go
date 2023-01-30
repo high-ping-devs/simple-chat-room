@@ -39,6 +39,21 @@ func GenerateToken(minutesToExpire int, customClaims jwt.MapClaims) (string, err
 	return token.SignedString(secret)
 }
 
+// The same as GenerateToken but with a default expiration time of 15 minutes.
+//
+// Args can be used to override the default expiration time.
+//
+//   - args[0]: The number of minutes before the token expires.
+func GenerateRefreshToken(customClaims jwt.MapClaims, args ...int) (string, error) {
+	minutesToExpire := 15
+
+	if len(args) > 0 {
+		minutesToExpire = args[0]
+	}
+
+	return GenerateToken(minutesToExpire, customClaims)
+}
+
 // ParseToken parses a JWT token and returns the token and any errors.
 //
 // The token is verified using the secret key.
