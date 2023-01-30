@@ -125,7 +125,7 @@ func HasPermission(token *jwt.Token, permission string) bool {
 //
 // It returns the hash in string format.
 func HashAndSaltPassword(password string) string {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), 25)
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		log.Panic(err)
 	}

@@ -20,13 +20,13 @@ func EmailValidator(v interface{}, param string) error {
 	return err
 }
 
-func (u *User) BeforeCreate(*gorm.DB) (err error) {
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	u.Password = auth.HashAndSaltPassword(u.Password)
-	return nil
+	return
 }
 
 func (u *User) PasswordMatch(password string) bool {
-	return auth.PasswordMatch(u.Password, password)
+	return auth.PasswordMatch(password, u.Password)
 }
 
 func (u *User) Validate() error {

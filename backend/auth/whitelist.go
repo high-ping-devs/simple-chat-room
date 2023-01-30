@@ -30,6 +30,11 @@ func (wl *WhiteList) Create() {
 	wl.rdb = redis.NewClient(options)
 }
 
+// Closes the whitelist
+func (wl *WhiteList) Close() {
+	wl.rdb.Close()
+}
+
 // Gets a value from the whitelist
 func (wl *WhiteList) Get(ctx context.Context, key string) (string, error) {
 	return wl.rdb.Get(ctx, key).Result()

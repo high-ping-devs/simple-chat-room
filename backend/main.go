@@ -26,6 +26,7 @@ func main() {
 
 	wl.Create()
 	log.Println("🗃️ Redis connected successfully")
+	wl.Close()
 
 	log.Println("🚀 Server started on port " + port)
 	router().Run(":" + port)
