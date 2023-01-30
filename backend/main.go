@@ -7,6 +7,8 @@ import (
 
 	"github.com/high-ping-devs/simple-chat-room/backend/auth"
 	"github.com/high-ping-devs/simple-chat-room/backend/database"
+	"github.com/high-ping-devs/simple-chat-room/backend/models"
+	"gopkg.in/validator.v2"
 )
 
 var (
@@ -14,6 +16,8 @@ var (
 )
 
 func main() {
+	validator.SetValidationFunc("email", models.EmailValidator)
+
 	log.Println("⏳ Starting server...")
 
 	var wl auth.WhiteList
