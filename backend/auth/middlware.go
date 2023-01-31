@@ -29,8 +29,9 @@ func Middleware() gin.HandlerFunc {
 
 		ID := strconv.FormatUint(uint64(GetTokenClaims(token)["id"].(float64)), 10)
 
-		_, err = wl.HGet(c, ID, "token")
-		if err != nil {
+		wlToken, err := wl.HGet(c, ID, "token")
+
+		if wlToken != tokenString || !token.Valid || err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired auth token"})
 			return
 		}

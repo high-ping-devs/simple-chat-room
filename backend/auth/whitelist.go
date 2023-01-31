@@ -35,6 +35,10 @@ func (wl *WhiteList) Close() {
 	wl.rdb.Close()
 }
 
+func (wl *WhiteList) Expire(ctx context.Context, key string, minutesToExpire int) error {
+	return wl.rdb.Expire(ctx, key, time.Duration(minutesToExpire)*time.Minute).Err()
+}
+
 // Gets a value from the whitelist
 func (wl *WhiteList) Get(ctx context.Context, key string) (string, error) {
 	return wl.rdb.Get(ctx, key).Result()

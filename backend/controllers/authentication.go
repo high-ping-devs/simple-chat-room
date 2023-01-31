@@ -68,6 +68,7 @@ func Login(c *gin.Context) {
 	defer wl.Close()
 	wl.HSet(c, ID, "token", token)
 	wl.HSet(c, ID, "refreshToken", refreshToken)
+	wl.Expire(c, ID, 60)
 
 	c.JSON(200, gin.H{
 		"accessToken":  token,
