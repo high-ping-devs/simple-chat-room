@@ -96,7 +96,7 @@ export default function Login() {
 
         <div className="w-full flex justify-center text-neutral-300 text-sm pt-4">
           <p>Já possui uma uma conta?</p>
-          <Link href="/index" className="underline decoration-solid pl-1">
+          <Link href="/" className="underline decoration-solid pl-1">
             Entrar agora
           </Link>
         </div>
