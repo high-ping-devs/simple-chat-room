@@ -1,8 +1,9 @@
-import SubmitButton from "@/components/SubmitButton";
-import { Form, Formik, useField, FieldHookConfig } from "formik";
 import Link from "next/link";
 import LoginInputs from "../components/LoginInputs";
 import * as Yup from "yup";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { Formik, Field, Form, FormikHelpers, useField } from "formik";
 
 const MyTextInput = (props: any) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -23,6 +24,18 @@ const MyTextInput = (props: any) => {
   );
 };
 
+interface Values {
+  email: string;
+  password: string;
+}
+
+const ValidateInputs = Yup.object({
+  email: Yup.string().email("Invalid email address").required("Required"),
+  password: Yup.string()
+    .min(4, "Must be 4 characters or more")
+    .required("Required"),
+});
+
 export default function Login() {
   return (
     <div className="flex justify-center items-center w-screen h-screen bg-neutral-900">
@@ -39,29 +52,33 @@ export default function Login() {
             email: "",
             password: "",
           }}
-          validationSchema={Yup.object({
-            firstName: Yup.string()
-              .max(15, "Must be 15 characters or less")
-              .required("Required"),
-            lastName: Yup.string()
-              .max(20, "Must be 20 characters or less")
-              .required("Required"),
-            email: Yup.string()
-              .email("Invalid email address")
-              .required("Required"),
-          })}
-          onSubmit={(values, { setSubmitting }) => {
+          validationSchema={ValidateInputs}
+          onSubmit={(
+            values: Values,
+            { setSubmitting }: FormikHelpers<Values>
+          ) => {
             setTimeout(() => {
               alert(JSON.stringify(values, null, 2));
               setSubmitting(false);
-            }, 400);
+            }, 500);
           }}
         >
-          {(formik) => (
+          {({ errors, touched }) => (
             <Form className="flex flex-col gap-4">
-              <MyTextInput name="email" type="email" placeholder="E-mail" />
-              <MyTextInput name="senha" type="password" placeholder="Senha" />
-              <SubmitButton id={"button"} name={"button"} label={"Entrar"} />
+              <MyTextInput id="email" name="email" placeholder="E-mail" />
+
+              <MyTextInput
+                id="password"
+                name="password"
+                placeholder="Senha"
+                type="password"
+              />
+              <button
+                className="w-full h-16 rounded-[4px] bg-indigo-600 text-neutral-50 font-bold hover:bg-indigo-800 transition duration-200"
+                type="submit"
+              >
+                Submit
+              </button>
             </Form>
           )}
         </Formik>
@@ -74,5 +91,10 @@ export default function Login() {
         </div>
       </div>
     </div>
+
+    // <div>
+    //   <h1>Signup</h1>
+
+    // </div>
   );
 }
