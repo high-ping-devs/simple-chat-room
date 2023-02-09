@@ -1,14 +1,10 @@
 import Link from "next/link";
-import LoginInputs from "../components/LoginInputs";
 import * as Yup from "yup";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Formik, Field, Form, FormikHelpers, useField } from "formik";
 
 const MyTextInput = (props: any) => {
-  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-  // which we can spread on <input>. We can use field meta to show an error
-  // message if the field is invalid and it has been touched (i.e. visited)
   const [field, meta] = useField(props);
   return (
     <>
@@ -77,7 +73,7 @@ export default function Login() {
                 className="w-full h-16 rounded-[4px] bg-indigo-600 text-neutral-50 font-bold hover:bg-indigo-800 transition duration-200"
                 type="submit"
               >
-                Submit
+                Entrar
               </button>
             </Form>
           )}
@@ -91,10 +87,5 @@ export default function Login() {
         </div>
       </div>
     </div>
-
-    // <div>
-    //   <h1>Signup</h1>
-
-    // </div>
   );
 }
